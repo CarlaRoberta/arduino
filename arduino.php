@@ -4,6 +4,7 @@ error_reporting(~E_WARNING);
 
 $server = '192.168.0.250';
 $port = 8888;
+$input = (string) filter_input_array(INPUT_POST, FILTER_DEFAULT);
 if (!($sock = socket_create(AF_INET, SOCK_DGRAM, 0))) {
     $errorcode = socket_last_error();
     $errormsg = socket_strerror($errorcode);
@@ -14,7 +15,7 @@ if (!($sock = socket_create(AF_INET, SOCK_DGRAM, 0))) {
 
 //Communication loop
 //Take some input to send
-$input = "tudo bom";
+
 
 //Send the message to the server
 if (!socket_sendto($sock, $input, strlen($input), 0, $server, $port)) {
