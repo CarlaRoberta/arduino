@@ -1,23 +1,36 @@
 <?php
 
-$socket = socket_create(AF_INET, SOCK_STREAM, SOL_UDP);
+error_reporting(~E_WARNING);
 
-$Mensagem = $_POST;
+$server = '192.168.0.250';
+$port = 8888;
+if (!($sock = socket_create(AF_INET, SOCK_DGRAM, 0))) {
+    $errorcode = socket_last_error();
+    $errormsg = socket_strerror($errorcode);
 
-$address = "192.168.0.250";
-
-$bind = socket_bind($socket, $address, 8888);
-if($bind < 0){
-    echo "Erro no bind";
+    die("Couldn't create socket: [$errorcode] $errormsg \n");
 }
 
-$connect = socket_connect($socket, $address, 8888);
-if($connect < 0){
-    echo "Erro no connect";
+
+//Communication loop
+//Take some input to send
+$input = "tudo bom";
+
+//Send the message to the server
+if (!socket_sendto($sock, $input, strlen($input), 0, $server, $port)) {
+    $errorcode = socket_last_error();
+    $errormsg = socket_strerror($errorcode);
+
+    die("Could not send data: [$errorcode] $errormsg \n");
 }
-
-socket_accept($socket);
-
-socket_write($socket, $Mensagem);
-echo "Enviei"
-
+         
+    //Now receive reply from server and print it
+    //if(socket_recv ( $sock , $reply , 2045 , MSG_WAITALL ) === FALSE)
+    //{
+    //    $errorcode = socket_last_error();
+    //    $errormsg = socket_strerror($errorcode);
+         
+     //   die("Could not receive data: [$errorcode] $errormsg \n");
+   // }
+     
+    //echo "Reply : $reply";
