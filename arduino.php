@@ -1,6 +1,6 @@
 <?php
 
-$socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
+$socket = socket_create(AF_INET, SOCK_STREAM, SOL_UDP);
 
 $Mensagem = $_POST;
 
@@ -19,5 +19,5 @@ if($connect < 0){
 socket_accept($socket);
 
 socket_write($socket, $Mensagem);
-echo "Enviei";
+echo "Enviei"
 
