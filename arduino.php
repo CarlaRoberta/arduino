@@ -4,7 +4,7 @@ error_reporting(~E_WARNING);
 
 $server = '192.168.0.250';
 $port = 8888;
-$input = (string) filter_input_array(INPUT_POST, FILTER_DEFAULT);
+$input = (string)$_POST;
 if (!($sock = socket_create(AF_INET, SOCK_DGRAM, 0))) {
     $errorcode = socket_last_error();
     $errormsg = socket_strerror($errorcode);
