@@ -1,23 +1,23 @@
 <?php
 
-$sock = socket_create(AF_INET,SOCK_STREAM, SOL_TCP);
-//conectara o web socket com arduino
-$ip = "192.168.0.250";
-$port = 8888;
+$socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
 
-socket_bind($sock,$ip,$port);
-if (socket_conect){
+$Mensagem = $_POST;
 
-$v1 = $_POST;
+$address = "192.168.0.250";
 
-socket_write($sock, $v1);
-}
-else{
-    echo socket_last_error();
+$bind = socket_bind($socket, $address, 8888);
+if($bind < 0){
+    echo "Erro no bind";
 }
 
-socket_close($sock);
-// retorna a index.html após acionamento dos botões;
-header("Location: index.php");
-//encerra a conexão com o socket
+$connect = socket_connect($socket, $address, 8888);
+if($connect < 0){
+    echo "Erro no connect";
+}
+
+socket_accept($socket);
+
+socket_write($socket, $Mensagem);
+echo "Enviei";
 
